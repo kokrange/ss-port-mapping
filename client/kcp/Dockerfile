@@ -1,9 +1,10 @@
 FROM alpine:3
 
+ARG TARGETARCH
 ARG UID=1001
 ARG GID=1001
 ARG KCP_VER=20210103
-ENV KCP_URL https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-amd64-$KCP_VER.tar.gz
+ENV KCP_URL https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-$TARGETARCH-$KCP_VER.tar.gz
 
 ENV KEY=
 ENV KCP_SERVER_IP=
@@ -14,7 +15,7 @@ RUN set -ex \
     && apk add --no-cache --update --virtual tools curl tar \
         && mkdir kcp-tmp-dir \
         && curl -sSL $KCP_URL | tar xzf - -C kcp-tmp-dir \
-        && mv kcp-tmp-dir/client_linux_amd64 /usr/bin/kcpclient \
+        && mv kcp-tmp-dir/client_linux_$TARGETARCH /usr/bin/kcpclient \
         && rm -rf kcp-tmp-dir \
     && apk del tools \
     && addgroup -g ${GID} kcpc \
