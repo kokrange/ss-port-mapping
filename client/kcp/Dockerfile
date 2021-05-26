@@ -8,7 +8,7 @@ ENV KCP_URL https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-l
 
 ENV KEY=
 ENV KCP_SERVER_IP=
-ENV KCP_SERVER_PORT=29900
+ENV KCP_SERVER_PORT=
 ENV PORT=8388
 
 RUN set -ex \
