@@ -26,7 +26,7 @@ WORKDIR /home/kcpc/
 
 CMD kcpclient \
              -r "$KCP_SERVER_IP:$KCP_SERVER_PORT" \
-             -l $PORT \
+             -l ":$PORT" \
              --key "$KEY" \
              --crypt salsa20 \
              --mode fast3 \
