@@ -8,7 +8,7 @@ services:
       - KCP_SERVER_IP=your_server_ip
       - KCP_SERVER_PORT=your_kcp_port
     ports:
-      - "8388:8388/tcp"
+      - "your_local_port:8388/tcp"
     restart: always
 
   usp:
@@ -18,5 +18,5 @@ services:
       - USP_SERVER_IP=your_server_ip
       - USP_SERVER_PORT=your_usp_port
     ports:
-      - "8388:8388/udp"
+      - "your_local_port:8388/udp"
     restart: always
