@@ -3,29 +3,21 @@ FROM alpine:3
 ARG TARGETARCH
 ARG UID=1001
 ARG GID=1001
-ARG KCP_VER=20210103
-ENV KCP_URL https://github.com/xtaci/kcptun/releases/download/v$KCP_VER/kcptun-linux-$TARGETARCH-$KCP_VER.tar.gz
+ARG KCP_VER=20230214
 
 ENV KEY=
 ENV KCP_SERVER_IP=
-ENV KCP_SERVER_PORT=
+ENV KCP_SERVER_PORT_RANGE=
 ENV PORT=8388
 
-RUN set -ex \
-    && apk add --no-cache --update --virtual tools curl tar \
-        && mkdir kcp-tmp-dir \
-        && curl -sSL $KCP_URL | tar xzf - -C kcp-tmp-dir \
-        && mv kcp-tmp-dir/client_linux_$TARGETARCH /usr/bin/kcpclient \
-        && rm -rf kcp-tmp-dir \
-    && apk del tools \
-    && addgroup -g ${GID} kcpc \
-    && adduser -D -u ${UID} -s /bin/sh -G kcpc kcpc
+COPY install.sh /tmp/install.sh
+RUN /tmp/install.sh
 
 USER kcpc
 WORKDIR /home/kcpc/
 
 CMD kcpclient \
-             -r "$KCP_SERVER_IP:$KCP_SERVER_PORT" \
+             -r "$KCP_SERVER_IP:$KCP_SERVER_PORT_RANGE" \
              -l ":$PORT" \
              --key "$KEY" \
              --crypt salsa20 \
